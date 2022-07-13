@@ -1,0 +1,22 @@
+name: CI-remi-tintane
+on: [push]
+jobs:
+  test_build_push_ML_CLFS:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run : |
+          pip install pytest
+          pip install -r requirements.txt
+          pytest
+      - name: build docker image
+        run :
+          docker build -t remi74500/cicd_ml:test .
+      - name: docker login
+        env:
+          USERNAME: ${{secrets.DOCKER_USERNAME}}
+          PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run : |
+          docker login -u $USERNAME -p $PASSWORD
+          docker push remi74500/cicd_ml:test
