@@ -1,4 +1,4 @@
-name: CI-remi-tintane
+name: CI-heidi
 on: [push]
 jobs:
   test_build_push_ML_CLFS:
@@ -12,11 +12,11 @@ jobs:
           pytest
       - name: build docker image
         run :
-          docker build -t remi74500/cicd_ml:test .
+          docker build -t heidisbk/ci_ml:test .
       - name: docker login
         env:
           USERNAME: ${{secrets.DOCKER_USERNAME}}
           PASSWORD: ${{secrets.DOCKER_PASSWORD}}
         run : |
           docker login -u $USERNAME -p $PASSWORD
-          docker push remi74500/cicd_ml:test
+          docker push heidisbk/ci_ml:test
